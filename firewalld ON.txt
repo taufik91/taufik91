@@ -1,9 +1,5 @@
 Testing firewalld on dan SELINUX enforcing
 
-Update ip 192.168.1.123 ke 192.168.1.18
-
-
-
 akses SSH, dan web sudah bisa jika firewalld on dan SELINUX enforcing.
 berikut konfigurasi setting selinux dan firewalld
 
