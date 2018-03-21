@@ -1,0 +1,56 @@
+Testing firewalld on dan SELINUX enforcing
+
+Update ip 192.168.1.123 ke 192.168.1.18
+
+
+
+akses SSH, dan web sudah bisa jika firewalld on dan SELINUX enforcing.
+berikut konfigurasi setting selinux dan firewalld
+
+
+=========
+SELINUX
+=========
+http://sharadchhetri.com/2014/10/15/centos-7-rhel-7-change-openssh-port-number-selinux-enabled/
+http://www.liberiangeek.net/2014/11/change-openssh-port-centos-7/
+
+selinux set SELINUX=enforcing
+yum -y install policycoreutils-python
+semanage port -a -t ssh_port_t -p tcp 11031   ---> memberi akses 11031
+
+==========
+firewalld
+==========
+
+
+https://www.digitalocean.com/community/tutorials/how-to-set-up-a-firewall-using-firewalld-on-centos-7
+
+http://stackoverflow.com/questions/24729024/centos-7-open-firewall-port
+
+
+systemctl status firewalld
+[root@localhost ~]# systemctl status firewalld
+firewalld.service - firewalld - dynamic firewall daemon
+   Loaded: loaded (/usr/lib/systemd/system/firewalld.service; enabled)
+   Active: active (running) since Fri 2015-12-04 09:48:33 WIB; 2s ago
+ Main PID: 6259 (firewalld)
+   CGroup: /system.slice/firewalld.service
+           └─6259 /usr/bin/python -Es /usr/sbin/firewalld --nofork --nopid
+
+Dec 04 09:48:33 localhost.localdomain systemd[1]: Started firewalld - dynamic firewall daemon.
+
+
+firewall-cmd --zone=public --add-port=1415/tcp --permanent      --> add-port
+firewall-cmd --reload   ---> reload firewalld
+firewall-cmd --list-all   ---> melihat list firewalld yang di open
+
+[evo@localhost admin]$ firewall-cmd --list-all
+public (default, active)
+  interfaces: enp3s0
+  sources:
+  services: dhcpv6-client ssh
+  ports: 9194/tcp 1205/tcp 11031/tcp 9192/tcp 2820/tcp 1415/tcp 7654/tcp
+  masquerade: no
+  forward-ports:
+  icmp-blocks:
+  rich rules:
